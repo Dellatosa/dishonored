@@ -25,32 +25,31 @@ export class DishonoredRoll {
 
         // Define r as our dice roll we want to perform (1d20, 2d20, 3d20, 4d20 or 5d20). We will then roll it.
         r = new Roll(dicePool+"d20");
-        let rollPromise = r.evaluate({async: true});
-        await rollPromise.then(function () {
-            // Now for each dice in the dice pool we want to check what the individual result was.
-            for (i = 0; i < dicePool; i++) {
-                result = r.terms[0].results[i].result;
-                // If the result is less than or equal to the focus, that counts as 2 successes and we want to show the dice as green.
-                if (result <= focusTarget) {
-                    diceString += "<li class=\"roll die d20 max\">" + result + "</li>";
-                    success += 2;
-                }
-                // If the result is less than or equal to the target (the style and skill added together), that counts as 1 success but we want to show the dice as normal.
-                else if (result <= checkTarget) {
-                    diceString += "<li class=\"roll die d20\">" + result + "</li>";
-                    success += 1;
-                }
-                // If the result is 20, than we want to count it as a complication. We also want to show it as red!
-                else if (result == 20) {
-                    diceString += "<li class=\"roll die d20 min\">" + result + "</li>";
-                    complication += 1;
-                }
-                // If none of the above is true, the dice failed to do anything and is treated as normal.
-                else {
-                    diceString += "<li class=\"roll die d20\">" + result + "</li>";
-                }
+        let rollresult = await r.roll({async: true});
+
+        // Now for each dice in the dice pool we want to check what the individual result was.
+        for (i = 0; i < dicePool; i++) {
+            result = r.terms[0].results[i].result;
+            // If the result is less than or equal to the focus, that counts as 2 successes and we want to show the dice as green.
+            if (result <= focusTarget) {
+                diceString += "<li class=\"roll die d20 max\">" + result + "</li>";
+                success += 2;
             }
-        });
+            // If the result is less than or equal to the target (the style and skill added together), that counts as 1 success but we want to show the dice as normal.
+            else if (result <= checkTarget) {
+                diceString += "<li class=\"roll die d20\">" + result + "</li>";
+                success += 1;
+            }
+            // If the result is 20, than we want to count it as a complication. We also want to show it as red!
+            else if (result == 20) {
+                diceString += "<li class=\"roll die d20 min\">" + result + "</li>";
+                complication += 1;
+            }
+            // If none of the above is true, the dice failed to do anything and is treated as normal.
+            else {
+                diceString += "<li class=\"roll die d20\">" + result + "</li>";
+            }
+        }
 
         // Here we want to check if the success was exactly one (as "1 Successes" doesn't make grammatical sense). We create a string for the Successes.
         if (success == 1) {
@@ -106,7 +105,7 @@ export class DishonoredRoll {
                     </div>
                 </div>
             </div>`;
-        this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.ROLL, speaker, html, r, flavour);
+        this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL, speaker, html, rollresult, flavour);
     }
 
     async performItemRoll(item, speaker) {
@@ -123,7 +122,7 @@ export class DishonoredRoll {
             valueTag = "";
         }
         // Send the div to populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description, variable, valueTag).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description, variable, valueTag).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async performFocusRoll(item, speaker) {
@@ -131,12 +130,12 @@ export class DishonoredRoll {
         let variablePrompt = game.i18n.format("dishonored.roll.focus.rating");
         let variable = "<div class='dice-formula'> "+variablePrompt.replace("|#|", item.system.rating)+"</div>";
         // Send the div to populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description, variable).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description, variable).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async performBonecharmRoll(item, speaker) {
         // Populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async performWeaponRoll(item, speaker) {
@@ -164,7 +163,7 @@ export class DishonoredRoll {
         if (item.system.qualities.rangeddistant) tags += "<div class='tag'> "+game.i18n.format("dishonored.actor.belonging.weapon.distant")+"</div>";
         if (item.system.qualities.rangednearby) tags += "<div class='tag'> "+game.i18n.format("dishonored.actor.belonging.weapon.nearby")+"</div>";
         // Send the div to populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description, variable, tags).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description, variable, tags).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async performArmorRoll(item, speaker) {
@@ -181,7 +180,7 @@ export class DishonoredRoll {
             valueTag = "";
         }
         // Send the div to populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description, variable, valueTag).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description, variable, valueTag).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async performTalentRoll(item, speaker) {
@@ -189,7 +188,7 @@ export class DishonoredRoll {
         var variablePrompt = game.i18n.format("dishonored.roll.talent.type");
         var variable = "<div class='dice-formula'> "+variablePrompt.replace("|#|", item.system.type)+"</div>";
         // Send the div to populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description, variable).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description, variable).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async performContactRoll(item, speaker) {
@@ -197,7 +196,7 @@ export class DishonoredRoll {
         var variablePrompt = game.i18n.format("dishonored.roll.contact.relation");
         var variable = "<div class='dice-formula'> "+variablePrompt.replace("|#|", item.system.relationship)+"</div>";
         // Send the div to populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description, variable).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description, variable).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async performPowerRoll(item, speaker) {
@@ -214,7 +213,7 @@ export class DishonoredRoll {
         // Create dynamic tags div and populate it with localisation to use in the HTML.
         var tags = "<div class = 'tag'>"+runeValue.replace("|#|", item.system.runecost)+"</div>";
         // Send the div to populate a HTML template and sends to chat.
-        this.genericItemTemplate(item.img, item.name, item.system.description, variablePrompt, tags).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.ROLL.OTHER, speaker, html));
+        this.genericItemTemplate(item.img, item.name, item.system.description, variablePrompt, tags).then(html=>this.sendToChat(CONST.CHAT_MESSAGE_TYPES.OTHER, speaker, html));
     }
 
     async genericItemTemplate(img, name, description, variable, tags) {
@@ -246,16 +245,22 @@ export class DishonoredRoll {
 
     async sendToChat(type, speaker, content, roll, flavour) {
         // Send's Chat Message to foundry, if items are missing they will appear as false or undefined and this not be rendered.
-        ChatMessage.create({
+        let chatData = {
             user: game.user.id,
             //type: type,
             speaker: ChatMessage.getSpeaker({ scene: null, actor: speaker }),
             flavor: flavour,
-            //roll: roll,
             //rollMode: game.settings.get("core", "rollMode"),
-            content: content,
-            sound: type == CONST.CHAT_MESSAGE_TYPES.ROLL ? "sounds/dice.wav" : ""
-        }).then(msg => {
+            content: content
+        };
+
+        if(type == CONST.CHAT_MESSAGE_TYPES.ROLL) {
+            chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
+            chatData.roll = roll;
+            chatData.sound = "sounds/dice.wav";
+        }
+
+        ChatMessage.create(chatData).then(msg => {
             return msg;
         });
     }
