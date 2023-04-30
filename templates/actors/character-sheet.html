@@ -421,7 +421,7 @@
                         {{#each items as |item id|}}
                         {{#if (eq item.type "truth")}}
                         <li class="row entry" data-item-id="{{item.id}}" data-item-type="{{item.type}}">
-                            <div class="image"><img class="rollable" src="{{item.img}}" title="{{item.name}}"/></div>
+                            <div class="image"><!--<img class="rollable" src="{{item.img}}" title="{{item.name}}"/>--></div>
                             <h4 class="column-x1">{{item.name}}</h4>
                             <div class="control">
                                 <a class="control edit" title="{{localize 'dishonored.titles.editItem'}}"><i class="fas fa-edit"></i></a>

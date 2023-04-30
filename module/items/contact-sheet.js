@@ -57,7 +57,7 @@ export class DishonoredContactSheet extends ItemSheet {
         }
 
         // Check if the user has the role set in the system settings. If not hide the button from the user.
-        if (!game.user.hasRole(game.settings.get("FVTT-Dishonored", "send2ActorPermissionLevel"))) {
+        if (!game.user.hasRole(game.settings.get("dishonored", "send2ActorPermissionLevel"))) {
             html.find(".send2actor")[0].style.display = "none";
         }
         else {
