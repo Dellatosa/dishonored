@@ -2,14 +2,13 @@
     "name": "dishonored",
     "title": "Dishonored RPG (non officiel)",
     "description": "Une version (non officielle) dérivée du système de CurtR95 (v 0.5.2), pour le jeu de Modiphius (VF Arkhane).",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "authors": [
       {
-        "name": "CurtR95",
-        "flags": {}
-      },
-      {
         "name": "Dellatosa",
+        "flags": {}
+      },{
+        "name": "CurtR95",
         "flags": {}
       }
     ],
@@ -55,6 +54,6 @@
     "secondaryTokenAttribute": "void",
     "url": "https://github.com/Dellatosa/dishonored",
     "manifest": "https://raw.githubusercontent.com/Dellatosa/dishonored/master/system.json",
-    "download": "https://github.com/Dellatosa/dishonored/archive/refs/tags/v0.1.0.zip",
+    "download": "https://github.com/Dellatosa/dishonored/archive/refs/tags/v0.1.1.zip",
     "license": "LICENSE.txt"
 }
