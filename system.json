@@ -1,0 +1,60 @@
+{
+    "name": "dishonored",
+    "title": "Dishonored RPG (non officiel)",
+    "description": "Une version (non officielle) dérivée du système de CurtR95 (v 0.5.2), pour le jeu de Modiphius (VF Arkhane).",
+    "version": "0.1.0",
+    "authors": [
+      {
+        "name": "CurtR95",
+        "flags": {}
+      },
+      {
+        "name": "Dellatosa",
+        "flags": {}
+      }
+    ],
+    "esmodules": ["module/dishonored.js"],
+    "styles": ["styles/dishonored.css"],
+    "packs": [{
+      "label": "Focuses",
+      "entity": "Item",
+      "name": "focuses-en",
+      "path": "./packs/focuses-en.db",
+      "system": "FVTT-Dishonored"
+    },{
+      "label": "Spécialités",
+      "entity": "Item",
+      "name": "focuses-fr",
+      "path": "./packs/focuses-fr.db",
+      "system": "FVTT-Dishonored"
+    }
+    ],
+    "languages": [{
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "es",
+      "name": "Spanish",
+      "path": "lang/es.json"
+    },
+    {
+      "lang": "fr",
+      "name": "French",
+      "path": "lang/fr.json"
+    }],
+    "compatibility": {
+      "minimum": "10.278",
+      "verified": "10.291",
+      "maximum": "10"
+    },
+    "gridDistance": 5,
+    "gridUnits": "ft",
+    "primaryTokenAttribute": "stress",
+    "secondaryTokenAttribute": "void",
+    "url": "https://github.com/Dellatosa/Dishonored",
+    "manifest": "https://raw.githubusercontent.com/Dellatosa/Dishonored/system.json",
+    "download": "https://github.com/Dellatosa/Dishonored/archive/refs/tags/v0.1.0.zip",
+    "license": "LICENSE.txt"
+}
